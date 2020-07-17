@@ -62,7 +62,6 @@ public class GroupChatActivity extends AppCompatActivity {
 
 
 
-
         InitializeFields();
 
 
@@ -155,8 +154,6 @@ public class GroupChatActivity extends AppCompatActivity {
             }
         });
     }
-
-
 
 
     private void SaveMessageInfoToDatabase() {
