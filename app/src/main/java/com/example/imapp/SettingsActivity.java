@@ -13,6 +13,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+//import android.widget.Toolbar;
+import androidx.appcompat.widget.Toolbar;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -48,9 +50,10 @@ public class SettingsActivity extends AppCompatActivity {
     private StorageReference UserProfileImageRef;
     private ProgressDialog loadingBar;
 
+    private Toolbar SettingsToolbar;
+
 
     private String photoUrl; // a global variable implemented to solve the unexpected deletion when pressing the upload button, delete if error
-
 
 
     @Override
@@ -105,6 +108,12 @@ public class SettingsActivity extends AppCompatActivity {
         userProfileImage = (CircleImageView) findViewById(R.id.set_profile_image);
         loadingBar = new ProgressDialog(this);
 
+
+        SettingsToolbar = (Toolbar) findViewById(R.id.settings_toolbar);
+        setSupportActionBar(SettingsToolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowCustomEnabled(true);
+        getSupportActionBar().setTitle("Account Settings");
     }
 
 
