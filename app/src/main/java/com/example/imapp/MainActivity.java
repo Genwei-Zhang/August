@@ -98,7 +98,7 @@ public class MainActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if((snapshot.child("name").exists())) {
 
-                    Toast.makeText(MainActivity.this, "Welcome", Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(MainActivity.this, "Welcome", Toast.LENGTH_SHORT).show(); //This is to toast a message to user every time gets to MainActivity
                 }
                 else {
 

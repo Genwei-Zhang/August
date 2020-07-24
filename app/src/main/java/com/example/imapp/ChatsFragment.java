@@ -1,5 +1,6 @@
 package com.example.imapp;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -40,7 +41,6 @@ public class ChatsFragment extends Fragment {
     private DatabaseReference ChatsRef, UsersRef;
     private FirebaseAuth mAuth;
     private String currentUserID;
-
 
 
     // TODO: Rename parameter arguments, choose names that match
@@ -120,20 +120,35 @@ public class ChatsFragment extends Fragment {
                     @Override
                     protected void onBindViewHolder(@NonNull final ChatsViewHolder holder, int position, @NonNull Contacts model) {
                         final String usersIDs = getRef(position).getKey();
+                        final String[] retImage = {"default_image"};
 
                         UsersRef.child(usersIDs).addValueEventListener(new ValueEventListener() {
                             @Override
                             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                if(snapshot.hasChild("image")) {
-                                    final String retImage = snapshot.child("image").getValue().toString();
-                                    Picasso.get().load(retImage).into(holder.profileImage);
+                                if(snapshot.exists()) {
+                                    if(snapshot.hasChild("image")) {
+                                        retImage[0] = snapshot.child("image").getValue().toString();
+                                        Picasso.get().load(retImage[0]).into(holder.profileImage);
+                                    }
+
+                                    final String retName = snapshot.child("name").getValue().toString();
+                                    final String retStatus = snapshot.child("status").getValue().toString();
+
+                                    holder.userName.setText(retName);
+                                    holder.userStatus.setText("Last Seen: " + "\n" + "Date" + " Time");
+
+
+                                    holder.itemView.setOnClickListener(new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View view) {
+                                            Intent chatIntent = new Intent(getContext(), ChatActivity.class);
+                                            chatIntent.putExtra("visit_user_id", usersIDs);
+                                            chatIntent.putExtra("visit_user_name", retName);
+                                            chatIntent.putExtra("visit_image", retImage[0]);
+                                            startActivity(chatIntent);
+                                        }
+                                    });
                                 }
-
-                                final String retName = snapshot.child("name").getValue().toString();
-                                final String retStatus = snapshot.child("status").getValue().toString();
-
-                                holder.userName.setText(retName);
-                                holder.userStatus.setText("Last Seen: " + "\n" + "Date" + " Time");
                             }
 
                             @Override
